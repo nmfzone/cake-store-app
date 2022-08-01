@@ -1,0 +1,10 @@
+app:
+  host: localhost
+  port: 8080
+
+db:
+  name: cake_store
+  host: mariadb
+  port: 3306
+  username: root
+  password: secret

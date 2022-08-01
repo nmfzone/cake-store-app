@@ -1,0 +1,34 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+    ports:
+      - "${WEB_HOST_PORT:-8080}:8080"
+    environment:
+      GIN_MODE: "debug"
+      APP_HOST: "0.0.0.0"
+      APP_PORT: "8080"
+      DB_NAME: "cake_store"
+      DB_HOST: "mariadb"
+      DB_PORT: "3306"
+      DB_USERNAME: "root"
+      DB_PASSWORD: "secret"
+    depends_on:
+      - mariadb
+    links:
+      - mariadb:mariadb
+
+  mariadb:
+    image: mariadb:10.2
+    restart: on-failure
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "${MARIADB_HOST_PORT:-3306}:3306"
+    environment:
+      - MYSQL_DATABASE=cake_store
+      - MYSQL_ROOT_PASSWORD=secret
+
+volumes:
+  dbdata:
